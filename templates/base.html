@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Button hover effects */
+      button:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease-in-out;
+      }
+      li button:hover {
+        transform: scale(1.15) translateY(-3px);
+        text-decoration: underline;
+        transition: transform 0.3s ease, text-decoration 0.3s ease;
+      }
+
+      /* Success and error messages */
+      .success {
+        color: #10b981; /* Tailwind's emerald-500 */
+        font-weight: 600;
+      }
+      .error {
+        color: #ef4444; /* Tailwind's red-500 */
+        font-weight: 600;
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gray-900 text-white">
+    <!-- Navbar -->
+    {% include 'nav.html' %}
+
+    <!-- Title of the page -->
+    <header
+      class="flex flex-row justify-between items-end mb-5 max-w-5xl mx-auto p-4"
+    >
+      <h1 class="font-bold text-2xl sm:text-3xl capitalize">
+        {% block heading %}{% endblock heading %}
+      </h1>
+      {% if user.is_anonymous %}
+      <h2 class="text-red-400 sm:pr-5 xl:pr-3">logged out</h2>
+      {% else %}
+      <h2 class="text-green-400">logged in as {{ user }}</h2>
+      {% endif %}
+    </header>
+
+    <!-- Messages Section -->
+    <section class="container max-w-5xl mx-auto mb-6">
+      {% for message in messages %}
+      <h3
+        class="font-bold tracking-wide text-lg p-3 rounded-lg {{ message.tags }}"
+      >
+        {{ message }}
+      </h3>
+      {% endfor %}
+    </section>
+
+    <!-- Main Content -->
+    <main class="container max-w-5xl mx-auto p-4">
+      {% block content %}{% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+  </body>
+</html>
